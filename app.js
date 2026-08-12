@@ -5,31 +5,30 @@ const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 // 23 位練習生完整資料庫
 const mockTrainees = [
-  { name: "吕政熙", group: "蓉（成都）", birthday: "2012.02.20", joinedDate: "2025.01.18", photo: "images/吕政熙.jpg" },
-  { name: "杨云皓", group: "蓉（成都）", birthday: "2012.07.08", joinedDate: "2025.12.26", photo: "images/杨云皓.jpg" },
-  { name: "侯王子", group: "渝（重庆）", birthday: "2012.10.01", joinedDate: "2025.12.26", photo: "images/侯王子.jpg" },
-  { name: "刘禹辰", group: "渝（重庆）", birthday: "2012.10.02", joinedDate: "2025.12.26", photo: "images/刘禹辰.jpg" },
-  { name: "余政霖", group: "渝（重庆）", birthday: "2012.11.15", joinedDate: "2025.12.26", photo: "images/余政霖.jpg" },
-  { name: "高铭阳", group: "蓉（成都）", birthday: "2012.11.17", joinedDate: "2025.07.12", photo: "images/高铭阳.jpg" },
-  { name: "杨子豪", group: "五代练习生", birthday: "2013.03.15", joinedDate: "2025.08.05", photo: "images/杨子豪.jpg" },
-  { name: "宋金泽", group: "五代练习生", birthday: "2013.04.02", joinedDate: "2025.08.05", photo: "images/宋金泽.jpg" },
-  { name: "任玄哲", group: "蓉（成都）", birthday: "2013.09.05", joinedDate: "2025.12.26", photo: "images/任玄哲.jpg" },
-  { name: "皮子渝", group: "五代练习生", birthday: "2013.09.16", joinedDate: "2026.07.16", photo: "images/皮子渝.jpg" },
-  { name: "智恩涵", group: "蓉（成都）", birthday: "2013.09.24", joinedDate: "2025.02.24", photo: "images/智恩涵.jpg" },
-  { name: "沈子航", group: "蓉（成都）", birthday: "2013.11.21", joinedDate: "2025.07.12", photo: "images/沈子航.jpg" },
-  { name: "杨林好", group: "蓉（成都）", birthday: "2013.12.17", joinedDate: "2025.12.26", photo: "images/杨林好.jpg" },
-  { name: "朱映宸", group: "渝（重庆）", birthday: "2013.12.19", joinedDate: "2025.01.18", photo: "images/朱映宸.jpg" },
-  { name: "张誉严", group: "渝（重庆）", birthday: "2014.03.26", joinedDate: "2025.12.26", photo: "images/张誉严.jpg" },
-  { name: "陈璟翊", group: "蓉（成都）", birthday: "2014.04.23", joinedDate: "2026.05.17", photo: "images/陈璟翊.jpg" },
-  { name: "胡阿米", group: "渝（重庆）", birthday: "2014.05.01", joinedDate: "2025.12.26", photo: "images/胡阿米.jpg" },
-  { name: "魏新航", group: "渝（重庆）", birthday: "2014.06.27", joinedDate: "2025.12.26", photo: "images/魏新航.jpg" },
-  { name: "佟弋", group: "渝（重庆）", birthday: "2014.07.07", joinedDate: "2025.12.26", photo: "images/佟弋.jpg" },
-  { name: "赵俊羽", group: "蓉（成都）", birthday: "2014.08.24", joinedDate: "2025.12.26", photo: "images/赵俊羽.jpg" },
-  { name: "刘瀚辰", group: "渝（重庆）", birthday: "2014.09.21", joinedDate: "2025.07.12", photo: "images/刘瀚辰.jpg" },
-  { name: "陈燊", group: "蓉（成都）", birthday: "2014.09.23", joinedDate: "2025.12.26", photo: "images/陈燊.jpg" },
-  { name: "越艺晨", group: "渝（重庆）", birthday: "2014.10.31", joinedDate: "2026.05.17", photo: "images/越艺晨.jpg" }
-];
-
+  { name: "吕政熙", group: "蓉（成都）", birthday: "2012.02.20", joinedDate: "2025.01.18", photo: "吕政熙.jpg" },
+  { name: "杨云皓", group: "蓉（成都）", birthday: "2012.07.08", joinedDate: "2025.12.26", photo: "杨云皓.jpg" },
+  { name: "侯王子", group: "渝（重庆）", birthday: "2012.10.01", joinedDate: "2025.12.26", photo: "侯王子.jpg" },
+  { name: "刘禹辰", group: "渝（重庆）", birthday: "2012.10.02", joinedDate: "2025.12.26", photo: "刘禹辰.jpg" },
+  { name: "余政霖", group: "渝（重庆）", birthday: "2012.11.15", joinedDate: "2025.12.26", photo: "余政霖.jpg" },
+  { name: "高铭阳", group: "蓉（成都）", birthday: "2012.11.17", joinedDate: "2025.07.12", photo: "高铭阳.jpg" },
+  { name: "杨子豪", group: "五代练习生", birthday: "2013.03.15", joinedDate: "2025.08.05", photo: "杨子豪.jpg" },
+  { name: "宋金泽", group: "五代练习生", birthday: "2013.04.02", joinedDate: "2025.08.05", photo: "宋金泽.jpg" },
+  { name: "任玄哲", group: "蓉（成都）", birthday: "2013.09.05", joinedDate: "2025.12.26", photo: "任玄哲.jpg" },
+  { name: "皮子渝", group: "五代练习生", birthday: "2013.09.16", joinedDate: "2026.07.16", photo: "皮子渝.jpg" },
+  { name: "智恩涵", group: "蓉（成都）", birthday: "2013.09.24", joinedDate: "2025.02.24", photo: "智恩涵.jpg" },
+  { name: "沈子航", group: "蓉（成都）", birthday: "2013.11.21", joinedDate: "2025.07.12", photo: "沈子航.jpg" },
+  { name: "杨林好", group: "蓉（成都）", birthday: "2013.12.17", joinedDate: "2025.12.26", photo: "杨林好.jpg" },
+  { name: "朱映宸", group: "渝（重庆）", birthday: "2013.12.19", joinedDate: "2025.01.18", photo: "朱映宸.jpg" },
+  { name: "张誉严", group: "渝（重庆）", birthday: "2014.03.26", joinedDate: "2025.12.26", photo: "张誉严.jpg" },
+  { name: "陈璟翊", group: "蓉（成都）", birthday: "2014.04.23", joinedDate: "2026.05.17", photo: "陈璟翊.jpg" },
+  { name: "胡阿米", group: "渝（重庆）", birthday: "2014.05.01", joinedDate: "2025.12.26", photo: "胡阿米.jpg" },
+  { name: "魏新航", group: "渝（重庆）", birthday: "2014.06.27", joinedDate: "2025.12.26", photo: "魏新航.jpg" },
+  { name: "佟弋", group: "渝（重庆）", birthday: "2014.07.07", joinedDate: "2025.12.26", photo: "佟弋.jpg" },
+  { name: "赵俊羽", group: "蓉（成都）", birthday: "2014.08.24", joinedDate: "2025.12.26", photo: "赵俊羽.jpg" },
+  { name: "刘瀚辰", group: "渝（重庆）", birthday: "2014.09.21", joinedDate: "2025.07.12", photo: "刘瀚辰.jpg" },
+  { name: "陈燊", group: "蓉（成都）", birthday: "2014.09.23", joinedDate: "2025.12.26", photo: "陈燊.jpg" },
+  { name: "越艺晨", group: "渝（重庆）", birthday: "2014.10.31", joinedDate: "2026.05.17", photo: "越艺晨.jpg" }
+]
 // 1. 页面 Tab 切换
 function switchTab(tabName) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
