@@ -1,0 +1,22 @@
+/* 隱藏滾動條但保持滾動 */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* 頁面切換控制 */
+.page {
+  display: none;
+}
+.page.active {
+  display: block;
+}
+
+/* 導覽列選中狀態 */
+.tab-btn.active {
+  color: #1F2937;
+  font-weight: bold;
+}
