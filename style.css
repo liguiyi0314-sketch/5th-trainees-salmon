@@ -1,22 +1,75 @@
-/* 隱藏滾動條但保持滾動 */
-.no-scrollbar::-webkit-scrollbar {
-  display: none;
+/* 吾鹅资料库新版样式 */
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+.page { display: none; }
+.page.active { display: block; }
+
+.tab-btn {
+  text-align: center;
+  font-size: 0.75rem;
+  color: #4B5563;
+  background: transparent;
+  border: 0;
 }
-.no-scrollbar {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
+.tab-btn.active { color: #1F2937; font-weight: bold; }
+
+.stat-card {
+  background: white;
+  border: 1px solid #E5E7EB;
+  border-radius: 1rem;
+  padding: 1rem;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: .35rem;
+  box-shadow: 0 1px 3px rgba(0,0,0,.04);
+}
+.stat-card b { font-size: .75rem; }
+.stat-card span { font-size: .65rem; color: #9CA3AF; }
+
+.more-btn {
+  width: 100%;
+  background: white;
+  padding: .75rem 1rem;
+  border-radius: .75rem;
+  border: 1px solid #E5E7EB;
+  text-align: left;
+  font-size: .75rem;
+  font-weight: 500;
+  color: #374151;
+  box-shadow: 0 1px 3px rgba(0,0,0,.03);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-/* 頁面切換控制 */
-.page {
-  display: none;
+.table-wrap {
+  overflow-x: auto;
+  background: white;
+  border: 1px solid #E5E7EB;
+  border-radius: 1rem;
+  box-shadow: 0 1px 3px rgba(0,0,0,.03);
 }
-.page.active {
-  display: block;
+.table-wrap table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: .68rem;
+  min-width: 520px;
 }
-
-/* 導覽列選中狀態 */
-.tab-btn.active {
-  color: #1F2937;
-  font-weight: bold;
+.table-wrap th {
+  background: #EBF2F8;
+  padding: .6rem .5rem;
+  text-align: left;
+  white-space: nowrap;
+  font-weight: 700;
 }
+.table-wrap td {
+  padding: .55rem .5rem;
+  border-top: 1px solid #F1F5F9;
+  white-space: nowrap;
+}
+.rank-row { display:flex; align-items:center; gap:.6rem; padding:.6rem 0; border-bottom:1px solid #F3F4F6; }
+.rank-no { width:1.6rem; text-align:center; font-weight:700; }
+.rank-name { flex:1; font-size:.75rem; }
+.rank-value { font-size:.75rem; font-weight:700; color:#64748B; }
