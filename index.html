@@ -5,248 +5,202 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>吾鹅资料库 | 五代资料站</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <!-- 引入 Supabase JS SDK -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <link rel="stylesheet" href="style.css">
 </head>
 <body class="bg-[#F8F9FA] max-w-md mx-auto min-h-screen pb-24 relative font-sans text-gray-800">
 
-  <!-- 頂部 Header -->
-  <header class="bg-[#B9D1E5] py-4 text-center shadow-sm sticky top-0 z-20">
-    <h1 class="text-xl font-bold tracking-wide text-gray-800">吾鹅资料库</h1>
-  </header>
+<header class="bg-[#B9D1E5] py-4 text-center shadow-sm sticky top-0 z-20">
+  <h1 class="text-xl font-bold tracking-wide text-gray-800">吾鹅资料库</h1>
+</header>
 
-  <!-- ================= 1. 首页 (Page Home) ================= -->
-  <main id="page-home" class="page active p-4 space-y-4">
-    <!-- 搜索框 -->
-    <div class="relative">
-      <input type="text" placeholder="搜索练习生、物料、活动" class="w-full py-2.5 pl-10 pr-4 bg-white rounded-full text-xs shadow-sm border border-gray-100 focus:outline-none">
-      <span class="absolute left-3.5 top-2.5 text-gray-400 text-sm">🔍</span>
-    </div>
-
-    <!-- 最新动态 -->
-    <section>
-      <div class="flex justify-between items-center mb-2">
-        <h2 class="font-bold text-sm text-gray-800">最新动态</h2>
-        <a href="#" class="text-[11px] text-gray-400 hover:text-gray-600">查看全部 →</a>
-      </div>
-      <div class="bg-white p-3.5 rounded-2xl shadow-sm border border-gray-100 space-y-1">
-        <span class="text-[10px] text-gray-400 block">2026.08.11</span>
-        <p class="text-xs font-medium text-gray-700">五代最新公开物料更新</p>
-      </div>
-    </section>
-
-    <!-- 练习生名录 -->
-    <section>
-      <div class="flex justify-between items-center mb-2">
-        <h2 class="font-bold text-sm text-gray-800">练习生</h2>
-        <a href="#" onclick="switchTab('trainees')" class="text-[11px] text-gray-400 hover:text-gray-600">查看全部 →</a>
-      </div>
-      <div id="home-trainees-scroll" class="flex space-x-3 overflow-x-auto no-scrollbar pb-1">
-        <!-- JS 动态加载 -->
-      </div>
-    </section>
-
-    <!-- 推荐物料 -->
-    <section>
-      <div class="flex justify-between items-center mb-2">
-        <h2 class="font-bold text-sm text-gray-800">推荐物料</h2>
-        <a href="#" onclick="switchTab('media')" class="text-[11px] text-gray-400 hover:text-gray-600">查看全部 →</a>
-      </div>
-      <div id="home-media-list" class="space-y-2.5">
-        <!-- JS 动态加载 -->
-      </div>
-    </section>
-
-    <!-- 🤫 匿名留言墙 -->
-    <section>
-      <div class="flex justify-between items-center mb-2">
-        <h2 class="font-bold text-sm text-gray-800">🤫 匿名留言墙</h2>
-        <button onclick="openGuestbookModal()" class="text-[11px] text-blue-500 font-medium hover:underline">我也要匿名投稿 →</button>
-      </div>
-      <div id="home-messages-list" class="space-y-2.5">
-        <!-- JS 动态加载已审核留言 -->
-      </div>
-    </section>
-  </main>
-
-  <!-- ================= 2. 练习生页 (Page Trainees) ================= -->
-  <main id="page-trainees" class="page p-4 space-y-4">
-    <h2 class="font-bold text-sm text-gray-800 mb-2">练习生</h2>
-    <!-- 上方頭像橫向滾動條 -->
-    <div id="trainee-top-scroll" class="flex space-x-3 overflow-x-auto no-scrollbar pb-2"></div>
-
-    <!-- 練習生詳情區塊 -->
-    <div id="trainee-detail-card" class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 space-y-4">
-      <!-- 圖片區域 -->
-      <div id="trainee-photo-box" class="w-full aspect-[3/4] bg-gray-100 rounded-xl overflow-hidden flex items-center justify-center text-gray-400 font-bold">
-        <span class="text-xs text-gray-400">照片区域</span>
-      </div>
-
-      <!-- 四宮格資料卡 -->
-      <div class="grid grid-cols-2 gap-2">
-        <div class="bg-[#EBF2F8] p-3 rounded-xl">
-          <span class="text-[10px] text-gray-400 block">姓名</span>
-          <span id="detail-name" class="font-bold text-sm text-gray-800">-</span>
-        </div>
-        <div class="bg-[#EBF2F8] p-3 rounded-xl">
-          <span class="text-[10px] text-gray-400 block">分组</span>
-          <span id="detail-group" class="font-bold text-sm text-gray-800">-</span>
-        </div>
-        <div class="bg-[#EBF2F8] p-3 rounded-xl">
-          <span class="text-[10px] text-gray-400 block">生日</span>
-          <span id="detail-birthday" class="font-bold text-sm text-gray-800">-</span>
-        </div>
-        <div class="bg-[#EBF2F8] p-3 rounded-xl">
-          <span class="text-[10px] text-gray-400 block">公开时间</span>
-          <span id="detail-joined" class="font-bold text-sm text-gray-800">-</span>
-        </div>
-      </div>
-    </div>
-  </main>
-
-  <!-- ================= 3. 物料页 (Page Media) ================= -->
-  <main id="page-media" class="page p-4 space-y-3">
-    <h2 class="font-bold text-sm text-gray-800 mb-2">物料汇总</h2>
-    <div id="media-full-list" class="space-y-2.5"></div>
-  </main>
-
-  <!-- ================= 4. 统计页 (Page Stats) ================= -->
-  <main id="page-stats" class="page p-4 space-y-3">
-    <h2 class="font-bold text-sm text-gray-800 mb-2">数据统计</h2>
-    <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 text-xs text-gray-500 text-center py-8">
-      舞台与考核数据汇总统计中...
-    </div>
-  </main>
-
-  <!-- ================= 5. 更多页 (Page More) ================= -->
-  <main id="page-more" class="page p-4 space-y-3">
-    <h2 class="font-bold text-sm text-gray-800 mb-2">更多功能</h2>
-    <div class="space-y-2.5">
-      <!-- 匿名留言投稿按鈕 -->
-      <button onclick="openGuestbookModal()" class="w-full bg-white py-3 px-4 rounded-xl border border-gray-200 text-left text-xs font-medium text-gray-700 shadow-sm flex justify-between items-center">
-        <span>匿名留言投稿 🤫</span><span class="text-gray-300">›</span>
-      </button>
-      <button class="w-full bg-white py-3 px-4 rounded-xl border border-gray-200 text-left text-xs font-medium text-gray-700 shadow-sm flex justify-between items-center">
-        <span>COVER统计总表</span><span class="text-gray-300">›</span>
-      </button>
-      <button class="w-full bg-white py-3 px-4 rounded-xl border border-gray-200 text-left text-xs font-medium text-gray-700 shadow-sm flex justify-between items-center">
-        <span>考核统计总表</span><span class="text-gray-300">›</span>
-      </button>
-      <button class="w-full bg-white py-3 px-4 rounded-xl border border-gray-200 text-left text-xs font-medium text-gray-700 shadow-sm flex justify-between items-center">
-        <span>舞台统计总表</span><span class="text-gray-300">›</span>
-      </button>
-      
-      <!-- 身份登录入口 -->
-      <button onclick="openLoginModal()" class="w-full bg-white py-3 px-4 rounded-xl border border-gray-200 text-left text-xs font-medium text-gray-700 shadow-sm flex justify-between items-center">
-        <span>使用者登入（数据组 / 管理员）</span><span class="text-gray-300">›</span>
-      </button>
-
-      <!-- 登录后显示：数据组投稿面板 -->
-      <div id="data-team-panel" class="hidden bg-white p-4 rounded-2xl border border-blue-100 space-y-3 shadow-sm">
-        <h3 class="font-bold text-xs text-blue-600">📝 数据组物料上报</h3>
-        <input type="text" id="input-title" placeholder="物料标题（例：2025新音完整舞台）" class="w-full p-2 border rounded-lg text-xs">
-        <input type="text" id="input-date" placeholder="日期（例：2025.01.30）" class="w-full p-2 border rounded-lg text-xs">
-        <input type="text" id="input-url" placeholder="视频/图片链接（可选）" class="w-full p-2 border rounded-lg text-xs">
-        <button onclick="submitMedia()" class="w-full py-2 bg-[#B9D1E5] font-bold text-xs rounded-lg text-gray-800">提交审核</button>
-      </div>
-
-      <!-- 登录后显示：管理员审核面板 -->
-      <div id="admin-panel" class="hidden bg-white p-4 rounded-2xl border border-amber-100 space-y-4 shadow-sm">
-        <div>
-          <h3 class="font-bold text-xs text-amber-600 mb-2">🛡️ 待审核物料列表</h3>
-          <div id="pending-list" class="space-y-2"></div>
-        </div>
-        <hr class="border-amber-100">
-        <div>
-          <h3 class="font-bold text-xs text-pink-600 mb-2">🤫 待审核匿名留言列表</h3>
-          <div id="pending-messages-list" class="space-y-2"></div>
-        </div>
-      </div>
-      
-      <button class="w-full bg-white py-3 px-4 rounded-xl border border-gray-200 text-left text-xs font-medium text-gray-700 shadow-sm flex justify-between items-center">
-        <span>问题回报</span><span class="text-gray-300">›</span>
-      </button>
-      <button class="w-full bg-white py-3 px-4 rounded-xl border border-gray-200 text-left text-xs font-medium text-gray-700 shadow-sm flex justify-between items-center">
-        <span>关于</span><span class="text-gray-300">›</span>
-      </button>
-    </div>
-  </main>
-
-  <!-- 🤫 匿名留言投稿 Modal 彈窗 -->
-  <div id="guestbook-modal" class="fixed inset-0 bg-black/40 hidden z-50 flex items-center justify-center p-4">
-    <div class="bg-white w-full max-w-xs rounded-2xl p-5 space-y-3 shadow-xl">
-      <h3 class="font-bold text-sm text-gray-800 text-center">🤫 匿名投稿区</h3>
-      
-      <!-- 1. 新增投稿類型選擇 -->
-      <select id="msg-type" class="w-full p-2 border border-gray-200 rounded-lg text-xs focus:outline-none bg-white">
-        <option value="告白">类型：💌 告白 / 祝福</option>
-        <option value="爆料">类型：🔥 爆料 / 独家消息</option>
-      </select>
-
-      <!-- 2. 對象選擇 -->
-      <select id="msg-target" class="w-full p-2 border border-gray-200 rounded-lg text-xs focus:outline-none bg-white">
-        <option value="全体">对象：全体练习生</option>
-        <option value="吕政熙">对象：吕政熙</option>
-        <option value="杨云皓">对象：杨云皓</option>
-        <option value="侯王子">对象：侯王子</option>
-        <option value="刘禹辰">对象：刘禹辰</option>
-        <option value="余政霖">对象：余政霖</option>
-        <option value="高铭阳">对象：高铭阳</option>
-        <option value="杨子豪">对象：杨子豪</option>
-        <option value="宋金泽">对象：宋金泽</option>
-        <option value="任玄哲">对象：任玄哲</option>
-        <option value="皮子渝">对象：皮子渝</option>
-        <option value="智恩涵">对象：智恩涵</option>
-        <option value="沈子航">对象：沈子航</option>
-        <option value="杨林好">对象：杨林好</option>
-        <option value="朱映宸">对象：朱映宸</option>
-        <option value="张誉严">对象：张誉严</option>
-        <option value="陈璟翊">对象：陈璟翊</option>
-        <option value="胡阿米">对象：胡阿米</option>
-        <option value="魏新航">对象：魏新航</option>
-        <option value="佟弋">对象：佟弋</option>
-        <option value="赵俊羽">对象：赵俊羽</option>
-        <option value="刘瀚辰">对象：刘瀚辰</option>
-        <option value="陈燊">对象：陈燊</option>
-        <option value="越艺晨">对象：越艺晨</option>
-      </select>
-      
-      <!-- 3. 内容框 -->
-      <textarea id="msg-content" rows="4" placeholder="悄悄写下内容..." class="w-full p-2 border border-gray-200 rounded-lg text-xs focus:outline-none resize-none"></textarea>
-      
-      <div class="flex space-x-2 pt-1">
-        <button onclick="closeGuestbookModal()" class="flex-1 py-2 bg-gray-100 rounded-lg text-xs text-gray-600 font-medium">取消</button>
-        <button onclick="submitGuestbookMessage()" class="flex-1 py-2 bg-[#B9D1E5] rounded-lg text-xs text-gray-800 font-bold">送出投稿</button>
-      </div>
-    </div>
+<main id="page-home" class="page active p-4 space-y-4">
+  <div class="relative">
+    <input id="global-search" type="text" placeholder="搜索练习生、物料、活动"
+      class="w-full py-2.5 pl-10 pr-4 bg-white rounded-full text-xs shadow-sm border border-gray-100 focus:outline-none">
+    <span class="absolute left-3.5 top-2.5 text-gray-400 text-sm">🔍</span>
   </div>
 
-  <!-- 登录 Modal 弹窗 -->
-  <div id="login-modal" class="fixed inset-0 bg-black/40 hidden z-50 flex items-center justify-center p-4">
-    <div class="bg-white w-full max-w-xs rounded-2xl p-5 space-y-4 shadow-xl">
-      <h3 class="font-bold text-sm text-gray-800 text-center">身份验证</h3>
-      <input type="password" id="modal-pass" placeholder="请输入专属暗号 / 密钥" class="w-full py-2 px-3 border border-gray-200 rounded-lg text-xs focus:outline-none">
-      <div class="text-[10px] text-gray-400 space-y-0.5">
-        <p>• 数据组暗号：<span class="font-mono text-gray-600">data123</span></p>
-        <p>• 管理员暗号：<span class="font-mono text-gray-600">admin888</span></p>
-      </div>
-      <div class="flex space-x-2">
-        <button onclick="closeLoginModal()" class="flex-1 py-2 bg-gray-100 rounded-lg text-xs text-gray-600 font-medium">取消</button>
-        <button onclick="handleLogin()" class="flex-1 py-2 bg-[#B9D1E5] rounded-lg text-xs text-gray-800 font-bold">登录</button>
-      </div>
+  <section>
+    <div class="flex justify-between items-center mb-2">
+      <h2 class="font-bold text-sm text-gray-800">最新动态</h2>
+      <button onclick="switchTab('news')" class="text-[11px] text-gray-400 hover:text-gray-600">查看全部 →</button>
+    </div>
+    <div id="home-news-list" class="space-y-2.5">
+      <div class="bg-white p-3.5 rounded-2xl shadow-sm border border-gray-100 text-xs text-gray-400 text-center">正在加载最新动态…</div>
+    </div>
+  </section>
+
+  <section>
+    <div class="flex justify-between items-center mb-2">
+      <h2 class="font-bold text-sm text-gray-800">练习生</h2>
+      <button onclick="switchTab('trainees')" class="text-[11px] text-gray-400 hover:text-gray-600">查看全部 →</button>
+    </div>
+    <div id="home-trainees-scroll" class="flex space-x-3 overflow-x-auto no-scrollbar pb-1"></div>
+  </section>
+
+  <section>
+    <div class="flex justify-between items-center mb-2">
+      <h2 class="font-bold text-sm text-gray-800">推荐物料</h2>
+      <button onclick="switchTab('media')" class="text-[11px] text-gray-400 hover:text-gray-600">查看全部 →</button>
+    </div>
+    <div id="home-media-list" class="space-y-2.5"></div>
+  </section>
+
+  <section>
+    <div class="flex justify-between items-center mb-2">
+      <h2 class="font-bold text-sm text-gray-800">🤫 匿名留言墙</h2>
+      <button onclick="openGuestbookModal()" class="text-[11px] text-blue-500 font-medium hover:underline">我也要匿名投稿 →</button>
+    </div>
+    <div id="home-messages-list" class="space-y-2.5"></div>
+  </section>
+</main>
+
+<main id="page-news" class="page p-4 space-y-3">
+  <div class="flex items-center justify-between">
+    <h2 class="font-bold text-sm">最新动态</h2>
+    <button onclick="switchTab('home')" class="text-[11px] text-gray-400">返回首页</button>
+  </div>
+  <div id="news-full-list" class="space-y-2.5"></div>
+</main>
+
+<main id="page-trainees" class="page p-4 space-y-4">
+  <h2 class="font-bold text-sm">练习生</h2>
+  <div id="trainee-top-scroll" class="flex space-x-3 overflow-x-auto no-scrollbar pb-2"></div>
+  <div id="trainee-detail-card" class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 space-y-4">
+    <div id="trainee-photo-box" class="w-full aspect-[3/4] bg-gray-100 rounded-xl overflow-hidden flex items-center justify-center text-gray-400 font-bold">
+      <span class="text-xs">照片区域</span>
+    </div>
+    <div class="grid grid-cols-2 gap-2">
+      <div class="bg-[#EBF2F8] p-3 rounded-xl"><span class="text-[10px] text-gray-400 block">姓名</span><span id="detail-name" class="font-bold text-sm">-</span></div>
+      <div class="bg-[#EBF2F8] p-3 rounded-xl"><span class="text-[10px] text-gray-400 block">分组</span><span id="detail-group" class="font-bold text-sm">-</span></div>
+      <div class="bg-[#EBF2F8] p-3 rounded-xl"><span class="text-[10px] text-gray-400 block">生日</span><span id="detail-birthday" class="font-bold text-sm">-</span></div>
+      <div class="bg-[#EBF2F8] p-3 rounded-xl"><span class="text-[10px] text-gray-400 block">公开时间</span><span id="detail-joined" class="font-bold text-sm">-</span></div>
     </div>
   </div>
+</main>
 
-  <!-- 底部導覽列 -->
-  <nav class="fixed bottom-0 left-0 right-0 max-w-md mx-auto bg-[#B9D1E5] flex justify-around py-2.5 shadow-lg z-20">
-    <button onclick="switchTab('home')" id="btn-home" class="tab-btn active text-center text-xs text-gray-800 font-bold">首页</button>
-    <button onclick="switchTab('trainees')" id="btn-trainees" class="tab-btn text-center text-xs text-gray-600">练习生</button>
-    <button onclick="switchTab('media')" id="btn-media" class="tab-btn text-center text-xs text-gray-600">物料</button>
-    <button onclick="switchTab('stats')" id="btn-stats" class="tab-btn text-center text-xs text-gray-600">统计</button>
-    <button onclick="switchTab('more')" id="btn-more" class="tab-btn text-center text-xs text-gray-600">更多</button>
-  </nav>
+<main id="page-media" class="page p-4 space-y-3">
+  <h2 class="font-bold text-sm">物料汇总</h2>
+  <div id="media-full-list" class="space-y-2.5"></div>
+</main>
 
-  <script src="app.js"></script>
+<main id="page-stats" class="page p-4 space-y-4">
+  <h2 class="font-bold text-sm">数据统计</h2>
+  <div class="grid grid-cols-2 gap-2">
+    <button onclick="showRanking('cover')" class="stat-card">🎬<b>Cover数量排名</b><span>查看排名 →</span></button>
+    <button onclick="showRanking('media')" class="stat-card">📦<b>物料数量排名</b><span>查看排名 →</span></button>
+    <button onclick="showRanking('stage')" class="stat-card">🎤<b>舞台数量排名</b><span>查看排名 →</span></button>
+    <button onclick="showRanking('exam')" class="stat-card">📝<b>考核排名</b><span>查看排名 →</span></button>
+  </div>
+  <div id="ranking-panel" class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100">
+    <p class="text-xs text-gray-400 text-center py-6">请选择一个排名查看。</p>
+  </div>
+</main>
+
+<main id="page-table-cover" class="page p-4 space-y-3">
+  <div class="flex justify-between items-center"><h2 class="font-bold text-sm">COVER统计总表</h2><button onclick="switchTab('more')" class="text-[11px] text-gray-400">返回</button></div>
+  <div class="table-wrap"><table id="cover-table"></table></div>
+</main>
+
+<main id="page-table-exam" class="page p-4 space-y-3">
+  <div class="flex justify-between items-center"><h2 class="font-bold text-sm">考核统计总表</h2><button onclick="switchTab('more')" class="text-[11px] text-gray-400">返回</button></div>
+  <div class="table-wrap"><table id="exam-table"></table></div>
+</main>
+
+<main id="page-table-stage" class="page p-4 space-y-3">
+  <div class="flex justify-between items-center"><h2 class="font-bold text-sm">舞台统计总表</h2><button onclick="switchTab('more')" class="text-[11px] text-gray-400">返回</button></div>
+  <div class="table-wrap"><table id="stage-table"></table></div>
+</main>
+
+<main id="page-more" class="page p-4 space-y-3">
+  <h2 class="font-bold text-sm">更多功能</h2>
+  <div class="space-y-2.5">
+    <button onclick="openGuestbookModal()" class="more-btn"><span>匿名留言投稿 🤫</span><span>›</span></button>
+    <button onclick="switchTab('table-cover')" class="more-btn"><span>COVER统计总表</span><span>›</span></button>
+    <button onclick="switchTab('table-exam')" class="more-btn"><span>考核统计总表</span><span>›</span></button>
+    <button onclick="switchTab('table-stage')" class="more-btn"><span>舞台统计总表</span><span>›</span></button>
+    <button onclick="openLoginModal()" class="more-btn"><span>使用者登入（数据组 / 管理员）</span><span>›</span></button>
+
+    <div id="data-team-panel" class="hidden bg-white p-4 rounded-2xl border border-blue-100 space-y-3 shadow-sm">
+      <h3 class="font-bold text-xs text-blue-600">📝 数据组投稿面板</h3>
+      <div class="text-[10px] text-gray-400">当前身份：<span id="current-account"></span></div>
+
+      <div class="border-t pt-3">
+        <p class="text-xs font-bold mb-2">最新动态投稿</p>
+        <input type="text" id="news-title" placeholder="动态标题" class="w-full p-2 border rounded-lg text-xs mb-2">
+        <input type="text" id="news-date" placeholder="日期（例：2026.08.12）" class="w-full p-2 border rounded-lg text-xs mb-2">
+        <input type="text" id="news-url" placeholder="相关链接（可选）" class="w-full p-2 border rounded-lg text-xs mb-2">
+        <button onclick="submitNews()" class="w-full py-2 bg-[#B9D1E5] font-bold text-xs rounded-lg">提交动态审核</button>
+      </div>
+
+      <div class="border-t pt-3">
+        <p class="text-xs font-bold mb-2">物料投稿</p>
+        <input type="text" id="input-title" placeholder="物料标题" class="w-full p-2 border rounded-lg text-xs mb-2">
+        <input type="text" id="input-date" placeholder="日期" class="w-full p-2 border rounded-lg text-xs mb-2">
+        <input type="text" id="input-url" placeholder="视频/图片链接（可选）" class="w-full p-2 border rounded-lg text-xs mb-2">
+        <button onclick="submitMedia()" class="w-full py-2 bg-[#B9D1E5] font-bold text-xs rounded-lg">提交物料审核</button>
+      </div>
+    </div>
+
+    <div id="admin-panel" class="hidden bg-white p-4 rounded-2xl border border-amber-100 space-y-4 shadow-sm">
+      <h3 class="font-bold text-xs text-amber-600">🛡️ 管理员审核控制台</h3>
+      <div><p class="font-bold text-xs mb-2">待审核动态</p><div id="pending-news-list" class="space-y-2"></div></div>
+      <hr class="border-amber-100">
+      <div><p class="font-bold text-xs mb-2">待审核物料</p><div id="pending-list" class="space-y-2"></div></div>
+      <hr class="border-amber-100">
+      <div><p class="font-bold text-xs mb-2">待审核匿名留言</p><div id="pending-messages-list" class="space-y-2"></div></div>
+      <hr class="border-amber-100">
+      <div><p class="font-bold text-xs mb-2">待处理问题回报</p><div id="pending-problems-list" class="space-y-2"></div></div>
+    </div>
+
+    <button onclick="openProblemModal()" class="more-btn"><span>问题回报</span><span>›</span></button>
+    <button class="more-btn"><span>关于</span><span>›</span></button>
+  </div>
+</main>
+
+<div id="guestbook-modal" class="fixed inset-0 bg-black/40 hidden z-50 flex items-center justify-center p-4">
+  <div class="bg-white w-full max-w-xs rounded-2xl p-5 space-y-3 shadow-xl">
+    <h3 class="font-bold text-sm text-center">🤫 匿名投稿区</h3>
+    <select id="msg-type" class="w-full p-2 border rounded-lg text-xs">
+      <option value="告白">类型：💌 告白 / 祝福</option>
+      <option value="爆料">类型：🔥 爆料 / 独家消息</option>
+    </select>
+    <select id="msg-target" class="w-full p-2 border rounded-lg text-xs"></select>
+    <textarea id="msg-content" rows="4" placeholder="悄悄写下内容..." class="w-full p-2 border rounded-lg text-xs resize-none"></textarea>
+    <div class="flex space-x-2"><button onclick="closeGuestbookModal()" class="flex-1 py-2 bg-gray-100 rounded-lg text-xs">取消</button><button onclick="submitGuestbookMessage()" class="flex-1 py-2 bg-[#B9D1E5] rounded-lg text-xs font-bold">送出投稿</button></div>
+  </div>
+</div>
+
+<div id="problem-modal" class="fixed inset-0 bg-black/40 hidden z-50 flex items-center justify-center p-4">
+  <div class="bg-white w-full max-w-xs rounded-2xl p-5 space-y-3 shadow-xl">
+    <h3 class="font-bold text-sm text-center">🛠️ 匿名问题回报</h3>
+    <select id="problem-type" class="w-full p-2 border rounded-lg text-xs">
+      <option>网页功能问题</option><option>资料错误</option><option>资料遗漏</option><option>链接失效</option><option>其他问题</option>
+    </select>
+    <input id="problem-title" placeholder="问题标题" class="w-full p-2 border rounded-lg text-xs">
+    <textarea id="problem-content" rows="5" placeholder="请详细描述你发现的问题…" class="w-full p-2 border rounded-lg text-xs resize-none"></textarea>
+    <div class="flex space-x-2"><button onclick="closeProblemModal()" class="flex-1 py-2 bg-gray-100 rounded-lg text-xs">取消</button><button onclick="submitProblem()" class="flex-1 py-2 bg-[#B9D1E5] rounded-lg text-xs font-bold">匿名送出</button></div>
+  </div>
+</div>
+
+<div id="login-modal" class="fixed inset-0 bg-black/40 hidden z-50 flex items-center justify-center p-4">
+  <div class="bg-white w-full max-w-xs rounded-2xl p-5 space-y-4 shadow-xl">
+    <h3 class="font-bold text-sm text-center">身份验证</h3>
+    <input type="text" id="modal-account" placeholder="请输入专属账号" class="w-full py-2 px-3 border rounded-lg text-xs focus:outline-none">
+    <p class="text-[10px] text-gray-400">请输入数据组或管理员专属账号，不会在页面公开显示。</p>
+    <div class="flex space-x-2"><button onclick="closeLoginModal()" class="flex-1 py-2 bg-gray-100 rounded-lg text-xs">取消</button><button onclick="handleLogin()" class="flex-1 py-2 bg-[#B9D1E5] rounded-lg text-xs font-bold">登录</button></div>
+  </div>
+</div>
+
+<nav class="fixed bottom-0 left-0 right-0 max-w-md mx-auto bg-[#B9D1E5] flex justify-around py-2.5 shadow-lg z-20">
+  <button onclick="switchTab('home')" id="btn-home" class="tab-btn active">首页</button>
+  <button onclick="switchTab('trainees')" id="btn-trainees" class="tab-btn">练习生</button>
+  <button onclick="switchTab('media')" id="btn-media" class="tab-btn">物料</button>
+  <button onclick="switchTab('stats')" id="btn-stats" class="tab-btn">统计</button>
+  <button onclick="switchTab('more')" id="btn-more" class="tab-btn">更多</button>
+</nav>
+
+<script src="app.js"></script>
 </body>
 </html>
